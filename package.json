@@ -1,0 +1,24 @@
+{
+  "name": "yourbar",
+  "version": "1.0.0",
+  "description": "Nightlife coordination exercise for freeCodeCamp",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lcneves/yourbar.git"
+  },
+  "keywords": [
+    "nightlife",
+    "bars",
+    "yelp"
+  ],
+  "author": "Lucas Neves",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lcneves/yourbar/issues"
+  },
+  "homepage": "https://github.com/lcneves/yourbar#readme"
+}
