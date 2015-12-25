@@ -20,5 +20,14 @@
   "bugs": {
     "url": "https://github.com/lcneves/yourbar/issues"
   },
-  "homepage": "https://github.com/lcneves/yourbar#readme"
+  "homepage": "https://github.com/lcneves/yourbar#readme",
+  "dependencies": {
+    "bcrypt": "^0.8.5",
+    "body-parser": "^1.14.2",
+    "express": "^4.13.3",
+    "express-session": "^1.12.1",
+    "mongodb": "^2.1.2",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0"
+  }
 }
