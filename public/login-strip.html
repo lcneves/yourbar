@@ -31,9 +31,9 @@
             <h4>Loading, please wait...</h4>
         </div>
         <div id="login-not-logged" ng-show="receivedLogin && !isLogged">
-            <div class="panel panel-info">
+            <div class="panel panel-warning">
                 <div class="panel-heading">
-                    <h4>Not logged in. Please <a id="login-link" href="#">login</a> or <a id="register-link" href="#">register</a>.</h4>
+                    <h4>Not logged in. Please <a id="login-link" class="text-danger" href="#">login</a> or <a id="register-link" class="text-danger" href="#">register</a>.</h4>
                 </div>
                     <div id="form-container" class="panel-body">
                         <div id="register-div" class="form-div">
@@ -80,9 +80,9 @@
                 </div>
             </div>
             <div id="login-logged" ng-show="isLogged">
-                <div class="panel panel-info">
-                    <div class="panel-heading">
-                        <h4>Welcome, {{user}}! <a id="logout-button" href="#"><i class="fa fa-sign-out"></i></a></h4>
+                <div class="panel panel-warning">
+                    <div class="panel-heading" ng-controller="LogoutController">
+                        <h4>Welcome, {{user}}! <a id="logout-button" class="text-danger" href="#" ng-click="logout()"><i class="fa fa-sign-out"></i></a></h4>
                     </div>
                 </div>
             </div>
@@ -93,11 +93,6 @@
 <script>
     (function($) {
         $("#login-div").css('display', 'block').addClass("animated slideInDown");
-        $("#logout-button").click(function() {
-            $.post("session/logout", function(data) {
-                window.location.href = "/";
-            });
-        });
         $("#login-link").click(function() {
             if($("#login-div").css('display') == 'none') {
                 $("#form-container").css("height", "13em");

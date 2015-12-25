@@ -5,18 +5,20 @@
     });
     app.controller('MainController', ['$scope', 'loginStatus', function($scope, loginStatus) {
         
-        // Check for login status using loginModule's loginStatus factory
+        // Listen to angular-login.js' $emit info on login
         
         $scope.receivedLogin = false;
-        $scope.isLogged = false;
-        $scope.user = '';
-        loginStatus.getLogin().then(function() {
+        $scope.$on('received', function(event, data){
             $scope.receivedLogin = true;
-            if (loginStatus.data) {
-                $scope.user = loginStatus.data;
+        });
+        $scope.$on('user', function(event, data){
+            if (data) {
                 $scope.isLogged = true;
+                $scope.user = data;
+            } else {
+                $scope.isLogged = false;
+                $scope.user = '';
             }
-            $scope.$apply();
         });
     }]);
 }());

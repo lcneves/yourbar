@@ -16,18 +16,16 @@
         </style>
     </head>
     <body>
-        <div ng-app="barModule">
+        <div ng-app="barModule" ng-controller="MainController">
             <div ng-include="'login-strip.html'"></div>
-            <div ng-controller="MainController">
-                <div id="loading" ng-show="!receivedLogin">
-                    <h4>Loading, please wait...</h4>
-                </div>
-                <div id="not-logged" ng-show="receivedLogin && !isLogged">
-                    <p>Not logged.</p>
-                </div>
-                <div id="logged" ng-show="isLogged">
-                    <p>Is logged.</p>
-                </div>
+            <div id="loading" ng-show="!receivedLogin">
+                <h4>Loading, please wait...</h4>
+            </div>
+            <div id="not-logged" ng-show="receivedLogin && !isLogged">
+                <p>Not logged.</p>
+            </div>
+            <div id="logged" ng-show="isLogged">
+                <p>Is logged.</p>
             </div>
         </div>
         <!-- jQuery -->
