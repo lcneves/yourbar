@@ -5,7 +5,7 @@
         service.getLogin = function() {
             return jQuery.post("session/check", function(data) {
                 hasCheckedLogin = true;
-                service.data = username = data;
+                service.data = data;
                 return service.data;
             });
         };
@@ -19,8 +19,10 @@
                 $scope.$emit('received', true)
                 $scope.receivedLogin = true;
                 if (loginStatus.data) {
-                    $scope.$emit('user', loginStatus.data);
-                    $scope.user = loginStatus.data;
+                    $scope.$emit('userID', loginStatus.data.userID);
+                    $scope.$emit('user', loginStatus.data.realname);
+                    $scope.userID = loginStatus.data.userID;
+                    $scope.user = loginStatus.data.realname;
                     $scope.isLogged = true;
                 } else {
                     $scope.$emit('user', false);
@@ -42,19 +44,23 @@
         };
         $scope.message = "";
         $scope.register = function() {
-            var enteredUser = JSON.parse(JSON.stringify($scope.user));
-            jQuery.post("session/register", enteredUser, function(data) {
-                if (data === true) {
-                    jQuery.post("session/login", enteredUser, function(data) {
-                        $scope.$parent.getLogin();
-                    });
-                } else {
-                    $scope.message = data;
-                    $scope.user.password = '';
-                    $scope.user.passwordRepeat = '';
-                    $scope.$apply();
-                }
-            });
+            if (!$scope.isLoading) {
+                $scope.isLoading = true;
+                var enteredUser = JSON.parse(JSON.stringify($scope.user));
+                jQuery.post("session/register", enteredUser, function(data) {
+                    $scope.isLoading = false;
+                    if (data === true) {
+                        jQuery.post("session/login", enteredUser, function(data) {
+                            $scope.$parent.getLogin();
+                        });
+                    } else {
+                        $scope.message = data;
+                        $scope.user.password = '';
+                        $scope.user.passwordRepeat = '';
+                        $scope.$apply();
+                    }
+                });
+            }
         };
     }]);
     
@@ -65,23 +71,31 @@
         };
         $scope.message = "";
         $scope.login = function() {
-            jQuery.post("session/login", $scope.user, function(data) {
-                $scope.user.password = '';
-                if (data.message) {
-                    $scope.message = data.message;
-                    $scope.$apply();
-                } else {
-                    $scope.$parent.getLogin();
-                }
-            });
+            if (!$scope.isLoading) {
+                $scope.isLoading = true;
+                jQuery.post("session/login", $scope.user, function(data) {
+                    $scope.user.password = '';
+                    if (data.message) {
+                        $scope.message = data.message;
+                        $scope.$apply();
+                    } else {
+                        $scope.$parent.getLogin();
+                    }
+                    $scope.isLoading = false;
+                });
+            }
         };
     }]);
     
     app.controller('LogoutController', ['$scope', function($scope) {
         $scope.logout = function() {
-            jQuery.post("session/logout", function(data) {
-                $scope.$parent.getLogin();
-            });
+            if (!$scope.isLoading) {
+                $scope.isLoading = true;
+                jQuery.post("session/logout", function(data) {
+                    $scope.isLoading = false;
+                    $scope.$parent.getLogin();
+                });
+            }
         };
     }]);
 })();

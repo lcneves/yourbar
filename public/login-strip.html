@@ -4,9 +4,10 @@
     }
     #form-container {
         position: relative;
-        height: 13em;
+        height: 0;
         max-width: 30em;
         margin: 0 auto;
+        padding: 0;
         overflow: hidden;
         transition: height 0.7s;
     }
@@ -20,9 +21,8 @@
     .text-input {
         margin-right: 0.5em;
     }
-    #logout-button {
-        position: relative;
-        left: 0.5em;
+    .logout-icon {
+        margin-left: 0.5em;
     }
 </style>
 <div id="login-body" ng-app="loginModule">
@@ -54,7 +54,7 @@
                                     <label class="sr-only" for="register-realname">Real name:</label>
                                     <input id="register-realname" class="form-control text-input" type="text" name="realname" ng-model="user.realname" placeholder="Real name"/>
                                 </div>
-                                <button type="submit" class="btn btn-default">Register</button>
+                                <button type="submit" class="btn btn-default">Register <i class="fa fa-cog" ng-show="!isLoading"></i><i class="fa fa-cog fa-spin" ng-show="isLoading"></i></button>
                                 <div>
                                     <p class="error-message text-danger">{{message}}</p>
                                 </div>
@@ -70,7 +70,7 @@
                                     <label class="sr-only" for="login-password">Password:</label>
                                     <input id="login-password" class="form-control text-input" type="password" name="password" ng-model="user.password" placeholder="Password"/>
                                 </div>
-                                <button type="submit" class="btn btn-default">Log in</button>
+                                <button type="submit" class="btn btn-default">Log in <i class="fa fa-cog" ng-show="!isLoading"></i><i class="fa fa-cog fa-spin" ng-show="isLoading"></i></button>
                                 <div>
                                     <p class="error-message text-danger">{{message}}</p>
                                 </div>
@@ -82,7 +82,7 @@
             <div id="login-logged" ng-show="isLogged">
                 <div class="panel panel-warning">
                     <div class="panel-heading" ng-controller="LogoutController">
-                        <h4>Welcome, {{user}}! <a id="logout-button" class="text-danger" href="#" ng-click="logout()"><i class="fa fa-sign-out"></i></a></h4>
+                        <h4>Welcome, {{user}}! <a class="text-danger logout-icon" href="#" ng-click="logout()" ng-show="!isLoading"><i class="fa fa-sign-out"></i></a><i class="fa fa-cog fa-spin logout-icon" ng-show="isLoading"></i></h4>
                     </div>
                 </div>
             </div>
@@ -92,10 +92,10 @@
 </div>
 <script>
     (function($) {
-        $("#login-div").css('display', 'block').addClass("animated slideInDown");
+//        $("#login-div").css('display', 'block').addClass("animated slideInDown");
         $("#login-link").click(function() {
             if($("#login-div").css('display') == 'none') {
-                $("#form-container").css("height", "13em");
+                $("#form-container").css("height", "12em");
                 $("#register-div").removeClass("animated slideInDown").addClass("animated fadeOutDown");
                 window.setTimeout(function() {
                     $("#register-div").removeClass("animated fadeOutDown").css('display', 'none');
@@ -105,7 +105,7 @@
         });
         $("#register-link").click(function() {
             if($("#register-div").css('display') == 'none') {
-                $("#form-container").css("height", "20em");
+                $("#form-container").css("height", "19em");
                 $("#login-div").removeClass("animated slideInDown").addClass("animated fadeOutDown");
                 window.setTimeout(function() {
                     $("#login-div").removeClass("animated fadeOutDown").css('display', 'none');

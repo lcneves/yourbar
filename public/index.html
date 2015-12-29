@@ -12,20 +12,73 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
         <!-- Animate.css -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.2.3/animate.min.css" />
+        <!-- Seymour One Google Font for page title -->
+        <link href='https://fonts.googleapis.com/css?family=Seymour+One' rel='stylesheet' type='text/css'>
         <style>
+            #title-header {
+                font-family: 'Seymour One', sans-serif;
+                font-size: 4.5em;
+                color: #FAEBCC;
+                text-shadow: -2px 3px 0 #8A6D3B;
+            }
+            #query-form {
+                text-align: center;
+                margin: 3em auto;
+            }
+            .bar-div {
+                max-width: 40em;
+                min-height: 8em;
+                margin: 1em auto;
+                border-radius: 1em;
+                border: 2px solid #FAEBCC;
+            }
+            .bar-img {
+                float: left;
+                width: 9.3em;
+                height: 9.3em;
+                border-radius: 1em;
+            }
+            .bar-info-div {
+                margin-left: 10em;
+            }
+            .bar-title {
+            }
+            .bar-name {
+                margin-right: 0.5em;
+            }
+            .label {
+                margin-right: 0.5em;
+                cursor: default;
+            }
+            .label-success, .label-danger {
+                cursor: pointer;
+            }
         </style>
     </head>
     <body>
         <div ng-app="barModule" ng-controller="MainController">
             <div ng-include="'login-strip.html'"></div>
-            <div id="loading" ng-show="!receivedLogin">
-                <h4>Loading, please wait...</h4>
+            <div id="title-div" class="text-warning text-center">
+                <h1 id="title-header">Your bar</h1>
+                <h4>Find and check in the best bars in your area</h4>
             </div>
-            <div id="not-logged" ng-show="receivedLogin && !isLogged">
-                <p>Not logged.</p>
-            </div>
-            <div id="logged" ng-show="isLogged">
-                <p>Is logged.</p>
+            <form id="query-form" class="form-inline" name="query-form" ng-submit="query(queryString)">
+                <div class="form-group">
+                    <label class="sr-only" for="query-input">Username:</label>
+                    <input id="query-input" class="form-control" type="text" name="query-input" ng-model="queryString" placeholder="Your area"/>
+                </div>
+                <button type="submit" class="btn btn-default">Submit <i class="fa fa-cog" ng-show="!isLoadingQuery"></i><i class="fa fa-cog fa-spin" ng-show="isLoadingQuery"></i></button>
+                <p class="error-message text-danger">{{message}}</p>
+            </form>
+            <div ng-show="hasResults">
+                <div class="bar-div bg-warning" ng-repeat="result in results">
+                    <img class="bar-img" ng-src="{{result.image_url}}">
+                    <div class="bar-info-div">
+                        <h4 class="bar-title"><a class="text-danger bar-name" ng-href="{{result.url}}" target="_blank">{{result.name}}</a><img ng-src="{{result.rating_img_url}}"></h4>
+                        <span class="label label-warning">{{result.going.length}} going</span><span ng-show="isLogged"><span class="label label-success" ng-show="result.going.indexOf(userID) != -1" ng-click="removeGoing(result, $index)">I'm going! <i class="fa fa-refresh" ng-show="!result.isLoading"></i><i class="fa fa-refresh fa-spin" ng-show="result.isLoading"></i></span><span class="label label-danger" ng-show="result.going.indexOf(userID) == -1" ng-click="addGoing(result, $index)">I'm not going <i class="fa fa-refresh" ng-show="!result.isLoading"></i><i class="fa fa-refresh fa-spin" ng-show="result.isLoading"></i></span></span><span class="label label-default" ng-show="!isLogged">Going? Log in!</span>
+                        <p><em>{{result.snippet_text}}<em></p>
+                    </div>
+                </div>
             </div>
         </div>
         <!-- jQuery -->
