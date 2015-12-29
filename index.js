@@ -71,6 +71,7 @@ app.post('/query', function(req, res) {
                 image_url: element.image_url,
                 rating_img_url: element.rating_img_url,
                 snippet_text: element.snippet_text,
+                review_count: element.review_count,
                 going: []
             };
             collection.findOne({bar: element.id}, function(err, result) {

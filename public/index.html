@@ -25,15 +25,20 @@
                 text-align: center;
                 margin: 3em auto;
             }
+            #yelp-div {
+                display: block;
+                margin-top: 0.5em;
+            }
             .bar-div {
                 max-width: 40em;
-                min-height: 8em;
+                min-height: 9.5em;
                 margin: 1em auto;
                 border-radius: 1em;
                 border: 2px solid #FAEBCC;
             }
             .bar-img {
                 float: left;
+                clear: left;
                 width: 9.3em;
                 height: 9.3em;
                 border-radius: 1em;
@@ -41,10 +46,8 @@
             .bar-info-div {
                 margin-left: 10em;
             }
-            .bar-title {
-            }
-            .bar-name {
-                margin-right: 0.5em;
+            .bar-rating-img {
+                margin: auto 0.5em;
             }
             .label {
                 margin-right: 0.5em;
@@ -68,15 +71,18 @@
                     <input id="query-input" class="form-control" type="text" name="query-input" ng-model="queryString" placeholder="Your area"/>
                 </div>
                 <button type="submit" class="btn btn-default">Submit <i class="fa fa-cog" ng-show="!isLoadingQuery"></i><i class="fa fa-cog fa-spin" ng-show="isLoadingQuery"></i></button>
+                <div id="yelp-div" class="form-group">
+                    <a href="http://www.yelp.com" target="_blank"><img src="img/yelp_powered_btn_light.png"></a>
+                </div>
                 <p class="error-message text-danger">{{message}}</p>
             </form>
             <div ng-show="hasResults">
                 <div class="bar-div bg-warning" ng-repeat="result in results">
                     <img class="bar-img" ng-src="{{result.image_url}}">
                     <div class="bar-info-div">
-                        <h4 class="bar-title"><a class="text-danger bar-name" ng-href="{{result.url}}" target="_blank">{{result.name}}</a><img ng-src="{{result.rating_img_url}}"></h4>
+                        <h4 class="bar-title"><a class="text-danger bar-name" ng-href="{{result.url}}" target="_blank">{{result.name}}</a><img class="bar-rating-img" ng-src="{{result.rating_img_url}}"><small>{{result.review_count}} review<span ng-hide="result.review_count == 1">s</span></small></h4>
                         <span class="label label-warning">{{result.going.length}} going</span><span ng-show="isLogged"><span class="label label-success" ng-show="result.going.indexOf(userID) != -1" ng-click="removeGoing(result, $index)">I'm going! <i class="fa fa-refresh" ng-show="!result.isLoading"></i><i class="fa fa-refresh fa-spin" ng-show="result.isLoading"></i></span><span class="label label-danger" ng-show="result.going.indexOf(userID) == -1" ng-click="addGoing(result, $index)">I'm not going <i class="fa fa-refresh" ng-show="!result.isLoading"></i><i class="fa fa-refresh fa-spin" ng-show="result.isLoading"></i></span></span><span class="label label-default" ng-show="!isLogged">Going? Log in!</span>
-                        <p><em>{{result.snippet_text}}<em></p>
+                        <p><em>{{result.snippet_text}}</em> <a class="text-danger" ng-href="{{result.url}}" target="_blank">read more</a></p>
                     </div>
                 </div>
             </div>
