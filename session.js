@@ -21,7 +21,7 @@ module.exports.init = function(key) {
         resave: false,
         saveUninitialized: false,
         cookie: {
-            secure: true,
+            secure: false,
         },
         secret: SESSION_KEY
     }));
